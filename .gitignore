@@ -4,9 +4,7 @@ node_modules/
 dist/
 build/
 # Ignore environment variable files
-.env.development
-.env.production
-
+.env
 
 # Ignore log files
 *.log
@@ -28,3 +26,6 @@ coverage/
 *.tmp
 *.swp
 *~
+
+# Ignore generated source files
+/src/generated/
