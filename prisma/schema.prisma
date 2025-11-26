@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  role       Role     @default(staff)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  tokens Token[]
+}
+
+enum Role {
+  admin
+  staff
+  accountant
+}
+
+model Student {
+  id             Int      @id @default(autoincrement())
+  name           String
+  phone          String
+  fees           Decimal  @default(0)
+  due_amount     Decimal  @default(0)
+  join_date      DateTime
+  address        String?  @db.VarChar(100)
+  guardian_name  String?  @db.VarChar(100)
+  guardian_phone String?  @db.VarChar(15)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  batch_id Int
+  batch    Batch @relation(fields: [batch_id], references: [id], onDelete: Restrict)
+
+  payments FeePayment[]
+}
+
+model Batch {
+  id           Int      @id @default(autoincrement())
+  batch_name   String
+  subject      String
+  teacher      String
+  timing       Timing
+  monthly_fees Decimal
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  students Student[]
+  payments FeePayment[]
+}
+
+enum Timing {
+  morning
+  evening
+}
+
+model FeePayment {
+  id          Int         @id @default(autoincrement())
+  receipt_no  String
+  amount_paid Decimal
+  mode        PaymentMode
+  date        DateTime
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+
+  student_id Int
+  batch_id   Int
+
+  student Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  batch   Batch   @relation(fields: [batch_id], references: [id], onDelete: Restrict)
+
+  receipt Receipt?
+}
+
+enum PaymentMode {
+  cash
+  upi
+  bank
+}
+
+model Receipt {
+  id         Int      @id @default(autoincrement())
+  pdf_path   String
+  created_at DateTime @default(now())
+
+  payment_id Int        @unique
+  payment    FeePayment @relation(fields: [payment_id], references: [id], onDelete: Cascade)
+}
+
+model Token {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  user_id Int
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
