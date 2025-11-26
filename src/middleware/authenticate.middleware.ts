@@ -94,7 +94,7 @@ const authenticateMiddleware =
 			}
 
 			// Check for required fields in the payload
-			if (!payload.role || !payload.studentId) {
+			if (!payload.role || !payload.userId) {
 				// Log the incomplete payload
 				logger.error("Authentication failed: Incomplete token payload", {
 					label: "AuthenticateMiddleware",
@@ -114,9 +114,9 @@ const authenticateMiddleware =
 				);
 			}
 
-			// Attach the student info to the request object
+			// Attach the user info to the request object
 			req.student = {
-				studentId: payload.studentId,
+				userId: payload.userId,
 				role: payload.role,
 			};
 

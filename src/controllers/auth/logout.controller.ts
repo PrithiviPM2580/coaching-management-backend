@@ -46,7 +46,7 @@ const logoutController = async (
 	const payload = jwtutil.verifyRefreshToken(refreshToken);
 
 	// Log the logout attempt
-	logger.info(`User ${payload.studentId} logged out successfully`, {
+	logger.info(`User ${payload.userId} logged out successfully`, {
 		label: "LogoutController",
 	});
 
@@ -70,7 +70,7 @@ const logoutController = async (
 	cookie.clear(res, "refreshToken");
 
 	// Log successful logout
-	logger.info(`Intern ID: ${payload.studentId} logged out successfully`, {
+	logger.info(`User ID: ${payload.userId} logged out successfully`, {
 		label: "LogoutController",
 	});
 
