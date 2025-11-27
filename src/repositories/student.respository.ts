@@ -81,3 +81,13 @@ export const deleteStudentRepository = async (studentId: number) => {
 		where: { id: studentId },
 	});
 };
+
+// ------------------------------------------------------
+// findStudentByIdRepository() — Retrieves a student by their ID
+// ------------------------------------------------------
+export const findStudentByIdRepository = async (studentId: number) => {
+	// Check if the student with the given ID exists
+	return prisma.student.findUnique({
+		where: { id: studentId },
+	});
+};

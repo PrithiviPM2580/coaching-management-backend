@@ -63,3 +63,23 @@ export const sevenDaysFromNow = () => {
 	// Calculate and return the date seven days from now
 	return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 };
+
+// ------------------------------------------------------
+// studentDueAmount() — Calculates the due amount for a student
+// ------------------------------------------------------
+export const studentDueAmount = (
+	dueAmount: number,
+	amountPaid: number,
+): number => {
+	const due = dueAmount - amountPaid;
+	return due;
+};
+
+// ------------------------------------------------------
+// generateReceiptNumber() — Generates a unique receipt number
+// ------------------------------------------------------
+export const generateReceiptNumber = (): string => {
+	const timestamp = Date.now().toString(); // Current timestamp
+	const randomNum = Math.floor(1000 + Math.random() * 9000).toString(); // Random 4-digit number
+	return `RCPT-${timestamp}-${randomNum}`;
+};

@@ -69,3 +69,16 @@ export const deleteBatchByIdRepository = async (batchId: number) => {
 		where: { id: batchId },
 	});
 };
+
+// ------------------------------------------------------
+// findBatchByIdRepository() — Function to check if a batch exists by ID
+// ------------------------------------------------------
+export const findBatchByIdRepository = async (
+	batchId: number,
+): Promise<boolean> => {
+	// Check if the batch with the given ID exists
+	const batch = await prisma.batch.findUnique({
+		where: { id: batchId },
+	});
+	return !!batch;
+};
