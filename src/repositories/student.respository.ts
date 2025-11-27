@@ -3,7 +3,10 @@
 // ============================================================
 
 import prisma from "@/config/prisma-client.config";
-import type { CreateStudentBody } from "@/validator/student.validator";
+import type {
+	CreateStudentBody,
+	UpdateStudentBody,
+} from "@/validator/student.validator";
 
 // ------------------------------------------------------
 // createStudentRepository() — Handles the data operation for creating a new student
@@ -55,5 +58,19 @@ export const getStudentByIdRepository = async (studentId: number) => {
 		include: {
 			batch: true,
 		},
+	});
+};
+
+// ------------------------------------------------------
+// updateStudentRepository() — Updates a student by their ID
+// ------------------------------------------------------
+export const updateStudentRepository = async (
+	studentId: number,
+	updateData: UpdateStudentBody,
+) => {
+	// Update and return the student record with the specified ID
+	return prisma.student.update({
+		where: { id: studentId },
+		data: updateData,
 	});
 };

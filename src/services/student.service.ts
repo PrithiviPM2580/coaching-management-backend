@@ -9,8 +9,12 @@ import {
 	getAllStudentsRepository,
 	getStudentByIdRepository,
 	isBatchExistsRepository,
+	updateStudentRepository,
 } from "@/repositories/student.respository";
-import type { CreateStudentBody } from "@/validator/student.validator";
+import type {
+	CreateStudentBody,
+	UpdateStudentBody,
+} from "@/validator/student.validator";
 
 // ------------------------------------------------------
 // createStudentService() — Handles the business logic for creating a new student
@@ -103,4 +107,56 @@ export const getStudentService = async (studentId: number) => {
 
 	// Return the student record
 	return student;
+};
+
+// ------------------------------------------------------
+// updateStudentService() — Handles the business logic for updating a student by ID
+// ------------------------------------------------------
+export const updateStudentService = async (
+	studentId: number,
+	updateData: UpdateStudentBody,
+) => {
+	// Validate inputs
+	if (!studentId) {
+		// Log an error if studentId is not provided
+		logger.error("Student ID is required", {
+			label: "updateStudentService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Student ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "studentId",
+					message: "Student ID parameter is missing",
+				},
+			],
+		});
+	}
+
+	// Validate updateData
+	if (!updateData) {
+		// Log an error if no update data is provided
+		logger.error("No update data provided", {
+			label: "updateStudentService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "No update data provided", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "updateData",
+					message: "Update data is required",
+				},
+			],
+		});
+	}
+
+	// Update the student record using the repository function
+	const updatedStudent = await updateStudentRepository(studentId, updateData);
+
+	// Return the updated student record
+	return updatedStudent;
 };

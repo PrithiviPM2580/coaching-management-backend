@@ -13,6 +13,7 @@ import {
 	createStudentSchema,
 	studentParamsSchema,
 } from "@/validator/student.validator";
+import updateStudentController from "@/controllers/student/update-student.controller";
 
 // Initialize the router
 const router: Router = Router();
@@ -56,5 +57,19 @@ router
 		authenticateMiddleware(["admin", "staff", "accountant"]),
 		validateRequestMiddleware(studentParamsSchema),
 		asyncHandlerMiddleware(getStudentController),
+	);
+
+// ------------------------------------------------------
+// Update Student By StudentId
+// ------------------------------------------------------
+// @desc    Update Student By StudentId Route
+// @route   PATCH  /api/v1/students/:studentId
+// @access  Private
+router
+	.route("/:studentId")
+	.patch(
+		authenticateMiddleware(["admin"]),
+		validateRequestMiddleware(studentParamsSchema),
+		asyncHandlerMiddleware(updateStudentController),
 	);
 export default router;
