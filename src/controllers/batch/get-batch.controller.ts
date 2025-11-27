@@ -1,12 +1,13 @@
 // ============================================================
 // 🔹GetBatchController — Controller to get a single batch by ID
 // ============================================================
-import type { BatchIDParams } from "@/validator/batch.validator";
+
 import type { NextFunction, Request, Response } from "express";
-import { getBatchService } from "@/services/batch.service";
-import logger from "@/lib/logger.lib";
 import APIError from "@/lib/api-error.lib";
+import logger from "@/lib/logger.lib";
+import { getBatchService } from "@/services/batch.service";
 import { successResponse } from "@/utils/index.util";
+import type { BatchIDParams } from "@/validator/batch.validator";
 
 // ------------------------------------------------------
 // getBatchController() — Controller to get a single batch by ID
