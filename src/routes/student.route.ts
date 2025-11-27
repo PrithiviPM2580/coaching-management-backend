@@ -4,8 +4,10 @@
 
 import { Router } from "express";
 import { createStudentController } from "@/controllers/student/create-student.controller";
+import deleteStudentController from "@/controllers/student/delete-student.controller";
 import getAllStudentsController from "@/controllers/student/get-all-student.controller";
 import getStudentController from "@/controllers/student/get-student.controller";
+import updateStudentController from "@/controllers/student/update-student.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
@@ -13,7 +15,6 @@ import {
 	createStudentSchema,
 	studentParamsSchema,
 } from "@/validator/student.validator";
-import updateStudentController from "@/controllers/student/update-student.controller";
 
 // Initialize the router
 const router: Router = Router();
@@ -71,5 +72,19 @@ router
 		authenticateMiddleware(["admin"]),
 		validateRequestMiddleware(studentParamsSchema),
 		asyncHandlerMiddleware(updateStudentController),
+	);
+
+// ------------------------------------------------------
+// Delete Student By StudentID
+// ------------------------------------------------------
+// @desc    Delete Student By StudentID Route
+// @route   DELETE /api/v1/students/:studentId
+// @access  Private
+router
+	.route("/:studentId")
+	.delete(
+		authenticateMiddleware(["admin"]),
+		validateRequestMiddleware(studentParamsSchema),
+		asyncHandlerMiddleware(deleteStudentController),
 	);
 export default router;

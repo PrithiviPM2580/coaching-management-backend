@@ -1,15 +1,16 @@
 // ============================================================
-// 🔹UpdateStudentController —
+// 🔹UpdateStudentController — handles updating a student by ID
 // ============================================================
+
+import type { NextFunction, Request, Response } from "express";
 import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
+import { updateStudentService } from "@/services/student.service";
+import { successResponse } from "@/utils/index.util";
 import type {
 	StudentIDParams,
 	UpdateStudentBody,
 } from "@/validator/student.validator";
-import type { Request, Response, NextFunction } from "express";
-import { updateStudentService } from "@/services/student.service";
-import { successResponse } from "@/utils/index.util";
 
 // ------------------------------------------------------
 // updateStudentController() — Handles updating a student by ID
@@ -22,6 +23,7 @@ const updateStudentController = async (
 	// Extract studentId from request parameters
 	const studentid = req.params.studentId as StudentIDParams["studentId"];
 
+	const studentIdNumber = Number(studentid);
 	// Validate the presence of studentId
 	if (!studentid) {
 		// Log an error if studentId is missing
@@ -42,9 +44,6 @@ const updateStudentController = async (
 			}),
 		);
 	}
-
-	//  Convert studentId to number
-	const studentIdNumber = Number(studentid);
 
 	// Update the student using the service function
 	const updatedData = await updateStudentService(

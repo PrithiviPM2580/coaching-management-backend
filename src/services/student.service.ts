@@ -6,6 +6,7 @@ import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import {
 	createStudentRepository,
+	deleteStudentRepository,
 	getAllStudentsRepository,
 	getStudentByIdRepository,
 	isBatchExistsRepository,
@@ -159,4 +160,36 @@ export const updateStudentService = async (
 
 	// Return the updated student record
 	return updatedStudent;
+};
+
+// ------------------------------------------------------
+// deleteStudentService() — Handles the business logic for deleting a student by ID
+// ------------------------------------------------------
+export const deleteStudentService = async (
+	studentId: number,
+): Promise<boolean> => {
+	// Validate the studentId input
+	if (!studentId) {
+		// Log an error if studentId is not provided
+		logger.error("Student ID is required", {
+			label: "deleteStudentService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Student ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "studentId",
+					message: "Student ID parameter is missing",
+				},
+			],
+		});
+	}
+
+	// Delete the student by ID using the repository function
+	await deleteStudentRepository(studentId);
+
+	// Return true to indicate successful deletion
+	return true;
 };

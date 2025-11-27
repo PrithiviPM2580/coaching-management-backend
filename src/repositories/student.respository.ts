@@ -74,3 +74,13 @@ export const updateStudentRepository = async (
 		data: updateData,
 	});
 };
+
+// ------------------------------------------------------
+// deleteStudentRepository() — Deletes a student by their ID
+// ------------------------------------------------------
+export const deleteStudentRepository = async (studentId: number) => {
+	// Delete the student record with the specified ID
+	return prisma.student.delete({
+		where: { id: studentId },
+	});
+};
