@@ -1,0 +1,29 @@
+// ============================================================
+// 🔹StudentRoute Routes — Handles student-related API endpoints
+// ============================================================
+
+import { Router } from "express";
+import { createStudentController } from "@/controllers/student/create-student.controller";
+import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
+import authenticateMiddleware from "@/middleware/authenticate.middleware";
+import validateRequestMiddleware from "@/middleware/validate-request.middleware";
+import { createStudentSchema } from "@/validator/student.validator";
+
+// Initialize the router
+const router: Router = Router();
+
+// ------------------------------------------------------
+// Create Student Route
+// ------------------------------------------------------
+// @desc    Create Student
+// @route   POST /api/v1/students
+// @access  Private
+router
+	.route("/")
+	.post(
+		authenticateMiddleware(["admin", "staff", "accountant"]),
+		validateRequestMiddleware(createStudentSchema),
+		asyncHandlerMiddleware(createStudentController),
+	);
+
+export default router;

@@ -2,13 +2,13 @@
 // 🧩 RegsiterContoller — Handles user registration logic
 // ============================================================
 import type { NextFunction, Request, Response } from "express";
+import config from "@/config/env.config";
 import APIError from "@/lib/api-error.lib";
 import cookie from "@/lib/cookie.lib";
 import logger from "@/lib/logger.lib";
 import { registerService } from "@/services/auth.service";
 import { successResponse } from "@/utils/index.util";
 import type { RegisterBody } from "@/validator/auth.validator";
-import config from "@/config/env.config";
 
 // ------------------------------------------------------
 // registerController() — Handles user registration requests

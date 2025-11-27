@@ -6,6 +6,7 @@ import config from "@/config/env.config";
 import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import authRoute from "@/routes/auth.route";
+import studentRoute from "@/routes/student.route";
 import { successResponse } from "@/utils/index.util";
 
 // Initialize the router
@@ -14,6 +15,9 @@ const router: Router = Router();
 // ------------------------------------------------------
 // Root Route
 // ------------------------------------------------------
+// @desc    Root Route
+// @route   GET /
+// @access  Public
 router.route("/").get((_req: Request, res: Response) => {
 	try {
 		// Send a success response with application info
@@ -47,6 +51,9 @@ router.route("/").get((_req: Request, res: Response) => {
 // ------------------------------------------------------
 // Health Check
 // ------------------------------------------------------
+// @desc    Health Check Route
+// @route   GET /health
+// @access  Public
 router.route("/health").get((_req: Request, res: Response) => {
 	try {
 		// Send a success response indicating the service is healthy
@@ -82,10 +89,14 @@ router.route("/health").get((_req: Request, res: Response) => {
 // Index Routes
 // ------------------------------------------------------
 router.use("/api/v1/auth", authRoute);
+router.use("/api/v1/students", studentRoute);
 
 // ------------------------------------------------------
 // Not Found
 // ------------------------------------------------------
+// @desc    Not Found Route
+// @route   ALL *
+// @access  Public
 router.use((req: Request, _res: Response) => {
 	// Log the 404 error
 	logger.warn(`404 Not Found: ${req.method} ${req.originalUrl}`, {
