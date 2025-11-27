@@ -33,3 +33,14 @@ export const createFeeRepository = async (
 		}),
 	]);
 };
+
+// ------------------------------------------------------
+// getPaymentsByStudentIdRepository() — Retrieves all fee payments for a given student ID
+// ------------------------------------------------------
+export const getPaymentsByStudentIdRepository = async (studentId: number) => {
+	// Fetch all fee payment records for the specified student ID, ordered by date descending
+	return prisma.feePayment.findMany({
+		where: { student_id: studentId },
+		orderBy: { date: "desc" },
+	});
+};

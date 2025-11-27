@@ -5,7 +5,10 @@
 import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import { findBatchByIdRepository } from "@/repositories/batch.repository";
-import { createFeeRepository } from "@/repositories/fee.repository";
+import {
+	createFeeRepository,
+	getPaymentsByStudentIdRepository,
+} from "@/repositories/fee.repository";
 import { findStudentByIdRepository } from "@/repositories/student.respository";
 import { generateReceiptNumber, studentDueAmount } from "@/utils/index.util";
 import type { CreateFeeBody } from "@/validator/fee.validator";
@@ -92,4 +95,56 @@ export const createFeeService = async (feeData: CreateFeeBody) => {
 
 	// Return the created fee payment record
 	return [feePayment, updateStudent];
+};
+
+// ------------------------------------------------------
+// getStudentFeeService() — Business logic to get student fee details
+// ------------------------------------------------------
+export const getStudentFeeService = async (studentId: number) => {
+	// Validate student ID
+	if (!studentId) {
+		// Log the error
+		logger.error(`Student ID is missing in the service layer.`, {
+			label: "GetStudentFeeService",
+		});
+
+		// Throw an API error
+		throw new APIError(400, "Student ID is required.", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "studentId",
+					message: "Student ID is required.",
+				},
+			],
+		});
+	}
+
+	// Check if student exists
+	const student = await findStudentByIdRepository(studentId);
+
+	// If student does not exist, throw an error
+	if (!student) {
+		// Log the error
+		logger.error(`Student with ID ${studentId} does not exist.`, {
+			label: "GetStudentFeeService",
+		});
+
+		// Throw an API error
+		throw new APIError(404, "Student does not exist.", {
+			type: "NotFound",
+			details: [
+				{
+					field: "studentId",
+					message: "Student does not exist.",
+				},
+			],
+		});
+	}
+
+	// Retrieve all fee payments for the student
+	const payments = await getPaymentsByStudentIdRepository(studentId);
+
+	// Return student details along with their fee payments
+	return { student, payments };
 };
