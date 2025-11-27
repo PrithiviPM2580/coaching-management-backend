@@ -24,7 +24,7 @@ import type { LoginBody, RegisterBody } from "@/validator/auth.validator";
 // ------------------------------------------------------
 export const registerService = async (data: RegisterBody) => {
 	// Destructure the registration data
-	const { name, email, password } = data;
+	const { name, email, password, role } = data;
 
 	// Check if a student with the given email already exists
 	const userExists = await isUserExistsWithEmail(email);
@@ -56,6 +56,7 @@ export const registerService = async (data: RegisterBody) => {
 		name,
 		email,
 		password: hashedPassword,
+		role,
 	});
 
 	// Generate access token for the new user
@@ -83,6 +84,7 @@ export const registerService = async (data: RegisterBody) => {
 			id: user.id,
 			name: user.name,
 			email: user.email,
+			role: user.role,
 		},
 		accessToken,
 		refreshToken,

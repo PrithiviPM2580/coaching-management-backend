@@ -20,13 +20,19 @@ export const isUserExistsWithEmail = async (
 // ------------------------------------------------------
 // registerUser() — Registers a new user in the database
 // ------------------------------------------------------
-export const registerUser = async ({ email, name, password }: RegisterBody) => {
+export const registerUser = async ({
+	email,
+	name,
+	password,
+	role,
+}: RegisterBody) => {
 	// Create and return the new user record
 	return await prisma.user.create({
 		data: {
 			email,
 			name,
 			password,
+			role: role || "staff",
 		},
 	});
 };

@@ -21,6 +21,7 @@ export interface EnvSchema {
 	JWT_ACCESS_TOKEN_EXPIRATION: string;
 	JWT_REFRESH_TOKEN_SECRET: string;
 	JWT_REFRESH_TOKEN_EXPIRATION: string;
+	ADMIN_USER_EMAIL: string;
 }
 
 // ------------------------------------------------------
@@ -41,6 +42,20 @@ const envSchema = Joi.object<EnvSchema>({
 	JWT_ACCESS_TOKEN_EXPIRATION: Joi.string().default("15m"),
 	JWT_REFRESH_TOKEN_SECRET: Joi.string().min(20).required(),
 	JWT_REFRESH_TOKEN_EXPIRATION: Joi.string().default("7d"),
+	ADMIN_USER_EMAIL: Joi.string()
+		.default("")
+		.custom((value, helpers) => {
+			// Ensure value is a string
+			if (typeof value !== "string") {
+				return helpers.error("any.invalid");
+			}
+			const emails = value
+				.split(",")
+				.map((email) => email.trim().toLowerCase())
+				.filter((email) => email.length > 0);
+
+			return emails;
+		}, "Transform comma-separated admin emails"),
 });
 
 export default envSchema;

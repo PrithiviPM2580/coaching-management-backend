@@ -23,6 +23,7 @@ const envConfig = {
 	JWT_ACCESS_TOKEN_EXPIRATION: process.env.JWT_ACCESS_TOKEN_EXPIRATION,
 	JWT_REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_TOKEN_SECRET,
 	JWT_REFRESH_TOKEN_EXPIRATION: process.env.JWT_REFRESH_TOKEN_EXPIRATION,
+	ADMIN_USER_EMAIL: process.env.ADMIN_USER_EMAIL,
 };
 
 // Configure and validate the environment variables

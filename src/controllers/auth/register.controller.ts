@@ -8,6 +8,7 @@ import logger from "@/lib/logger.lib";
 import { registerService } from "@/services/auth.service";
 import { successResponse } from "@/utils/index.util";
 import type { RegisterBody } from "@/validator/auth.validator";
+import config from "@/config/env.config";
 
 // ------------------------------------------------------
 // registerController() — Handles user registration requests
@@ -17,6 +18,27 @@ const registerController = async (
 	res: Response,
 	next: NextFunction,
 ): Promise<void> => {
+	const isAdmin = config.ADMIN_USER_EMAIL.includes(req.body.email);
+
+	if (!isAdmin) {
+		logger.error("Registration failed: Unauthorized email.", {
+			label: "RegisterController",
+		});
+
+		return next(
+			new APIError(403, "Registration failed", {
+				type: "ForbiddenError",
+				details: [
+					{
+						field: "email",
+						message: "Email is not authorized for registration.",
+					},
+				],
+			}),
+		);
+	}
+
+	req.body.role = "admin";
 	// Call the register service with the request body
 	const { user, accessToken, refreshToken } = await registerService(
 		req.body as RegisterBody,
