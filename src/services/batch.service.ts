@@ -9,6 +9,7 @@ import {
 	getAllBatchesRepository,
 	getBatchByIdRepository,
 	updateBatchByIdRepository,
+	deleteBatchByIdRepository,
 } from "@/repositories/batch.repository";
 import type {
 	CreateBatchBody,
@@ -134,4 +135,34 @@ export const updateBatchService = async (
 
 	// Return the updated batch
 	return updatedBatch;
+};
+
+// ------------------------------------------------------
+// deleteBatchService() — Service to handle deleting a batch by ID
+// ------------------------------------------------------
+export const deleteBatchService = async (batchId: number): Promise<boolean> => {
+	//
+	if (!batchId) {
+		// Log an error if batch ID is not provided
+		logger.error("Batch ID is required to delete batch", {
+			label: "BatchService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Batch ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "batchId",
+					message: "Batch ID is missing",
+				},
+			],
+		});
+	}
+
+	// Delete the batch using the repository
+	await deleteBatchByIdRepository(batchId);
+
+	// Return true indicating successful deletion
+	return true;
 };

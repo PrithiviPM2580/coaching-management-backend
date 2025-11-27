@@ -9,6 +9,7 @@ import getBatchController from "@/controllers/batch/get-batch.controller";
 import updateBatchController from "@/controllers/batch/update-batch.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
+import deleteBatchController from "@/controllers/batch/delete-batch.controller";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
 import {
 	batchParamsSchema,
@@ -72,5 +73,19 @@ router
 		authenticateMiddleware(["admin"]),
 		validateRequestMiddleware(updateBatchSchema),
 		asyncHandlerMiddleware(updateBatchController),
+	);
+
+// ------------------------------------------------------
+// Delete Batch By BatchId Route
+// ------------------------------------------------------
+// @desc    Delete Batch By BatchId Route
+// @route   DELETE /api/v1/batches/:batchId
+// @access  Private
+router
+	.route("/:batchId")
+	.delete(
+		authenticateMiddleware(["admin"]),
+		validateRequestMiddleware(batchParamsSchema),
+		asyncHandlerMiddleware(deleteBatchController),
 	);
 export default router;

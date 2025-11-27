@@ -59,3 +59,13 @@ export const updateBatchByIdRepository = async (
 		data: updateData,
 	});
 };
+
+// ------------------------------------------------------
+// deleteBatchByIdRepository() — Function to delete a batch by ID in the database
+// ------------------------------------------------------
+export const deleteBatchByIdRepository = async (batchId: number) => {
+	// Delete the batch record with the specified ID
+	return prisma.batch.delete({
+		where: { id: batchId },
+	});
+};
