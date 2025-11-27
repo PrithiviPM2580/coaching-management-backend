@@ -45,3 +45,32 @@ export const batchParamsSchema = {
 		batchId: Joi.number().integer().positive().required(),
 	}),
 };
+
+// ===============================================================
+
+// ------------------------------------------------------
+// Interface for Update Batch Body
+// ------------------------------------------------------
+export interface UpdateBatchBody {
+	batch_name?: string;
+	subject?: string;
+	teacher?: string;
+	timing?: "morning" | "day" | "evening";
+	monthly_fees?: number;
+}
+
+// ------------------------------------------------------
+// updateBatchSchema — Validation schema for updating a batch
+// ------------------------------------------------------
+export const updateBatchSchema = {
+	body: Joi.object({
+		batch_name: Joi.string().min(3).max(50).optional(),
+		subject: Joi.string().min(3).max(50).optional(),
+		teacher: Joi.string().min(3).max(50).optional(),
+		timing: Joi.string().valid("MORNING", "DAY", "EVENING").optional(),
+		monthly_fees: Joi.number().positive().optional(),
+	}).min(1),
+	params: Joi.object<BatchIDParams>({
+		batchId: Joi.number().integer().positive().required(),
+	}),
+};

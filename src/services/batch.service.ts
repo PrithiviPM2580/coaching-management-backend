@@ -8,8 +8,12 @@ import {
 	createBatchRepository,
 	getAllBatchesRepository,
 	getBatchByIdRepository,
+	updateBatchByIdRepository,
 } from "@/repositories/batch.repository";
-import type { CreateBatchBody } from "@/validator/batch.validator";
+import type {
+	CreateBatchBody,
+	UpdateBatchBody,
+} from "@/validator/batch.validator";
 
 // ------------------------------------------------------
 // createBatchService() — Service to handle creating a new batch
@@ -80,4 +84,54 @@ export const getBatchService = async (batchId: number) => {
 
 	// If no batch is found, throw a not found error
 	return batch;
+};
+
+// ------------------------------------------------------
+// updateBatchService() — Service to handle updating a batch by ID
+// ------------------------------------------------------
+export const updateBatchService = async (
+	batchId: number,
+	updateData: UpdateBatchBody,
+) => {
+	// Validate the batch ID and update data
+	if (!batchId) {
+		// Log an error if batch ID is not provided
+		logger.error("Batch ID is required to update batch", {
+			label: "BatchService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Batch ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "batchId",
+					message: "Batch ID is missing",
+				},
+			],
+		});
+	}
+
+	// Validate update data
+	if (!updateData) {
+		logger.error("No update data provided", {
+			label: "BatchService",
+		});
+
+		throw new APIError(400, "Update data is required to update batch", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "body",
+					message: "Update data is missing",
+				},
+			],
+		});
+	}
+
+	// Update the batch using the repository
+	const updatedBatch = await updateBatchByIdRepository(batchId, updateData);
+
+	// Return the updated batch
+	return updatedBatch;
 };

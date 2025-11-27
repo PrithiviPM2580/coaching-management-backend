@@ -3,7 +3,10 @@
 // ============================================================
 
 import prisma from "@/config/prisma-client.config";
-import type { CreateBatchBody } from "@/validator/batch.validator";
+import type {
+	CreateBatchBody,
+	UpdateBatchBody,
+} from "@/validator/batch.validator";
 
 // ------------------------------------------------------
 // createBatchRepository() — Function to create a new batch in the database
@@ -40,5 +43,19 @@ export const getBatchByIdRepository = async (batchId: number) => {
 			students: true,
 			payments: true,
 		},
+	});
+};
+
+// ------------------------------------------------------
+// updateBatchByIdRepository() — Function to update a batch by ID in the database
+// ------------------------------------------------------
+export const updateBatchByIdRepository = async (
+	batchId: number,
+	updateData: UpdateBatchBody,
+) => {
+	// Update and return the updated batch record
+	return prisma.batch.update({
+		where: { id: batchId },
+		data: updateData,
 	});
 };

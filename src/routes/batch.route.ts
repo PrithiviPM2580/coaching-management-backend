@@ -8,10 +8,12 @@ import getAllBatchesController from "@/controllers/batch/get-all-batches.control
 import getBatchController from "@/controllers/batch/get-batch.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
+import updateBatchController from "@/controllers/batch/update-batch.controller";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
 import {
 	batchParamsSchema,
 	createBatchSchema,
+	updateBatchSchema,
 } from "@/validator/batch.validator";
 
 // Initialize the router
@@ -45,9 +47,9 @@ router
 	);
 
 // ------------------------------------------------------
-// Get Batch Route
+// Get Batch By BatchId Route
 // ------------------------------------------------------
-// @desc    Get Batch Route
+// @desc    Get Batch By BatchId Route
 // @route   GET /api/v1/batches/:batchId
 // @access  Private
 router
@@ -56,5 +58,19 @@ router
 		authenticateMiddleware(["admin", "staff", "accountant"]),
 		validateRequestMiddleware(batchParamsSchema),
 		asyncHandlerMiddleware(getBatchController),
+	);
+
+// ------------------------------------------------------
+// Update Batch By BatchId Route
+// ------------------------------------------------------
+// @desc    Update Batch By BatchId Route
+// @route   PATCH /api/v1/batches/:batchId
+// @access  Private
+router
+	.route("/:batchId")
+	.patch(
+		authenticateMiddleware(["admin"]),
+		validateRequestMiddleware(updateBatchSchema),
+		asyncHandlerMiddleware(updateBatchController),
 	);
 export default router;
