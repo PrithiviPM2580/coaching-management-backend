@@ -7,6 +7,7 @@ import logger from "@/lib/logger.lib";
 import {
 	createStudentRepository,
 	getAllStudentsRepository,
+	getStudentByIdRepository,
 	isBatchExistsRepository,
 } from "@/repositories/student.respository";
 import type { CreateStudentBody } from "@/validator/student.validator";
@@ -72,4 +73,34 @@ export const getAllStudentsService = async () => {
 
 	// Return the list of students
 	return students;
+};
+
+// ------------------------------------------------------
+// getStudentService() — Handles the business logic for retrieving a student by ID
+// ------------------------------------------------------
+export const getStudentService = async (studentId: number) => {
+	// Validate the studentId input
+	if (!studentId) {
+		// Log an error if studentId is not provided
+		logger.error("Student ID is required", {
+			label: "getStudentService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Student ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "studentId",
+					message: "Student ID parameter is missing",
+				},
+			],
+		});
+	}
+
+	// Retrieve the student by ID using the repository function
+	const student = await getStudentByIdRepository(studentId);
+
+	// Return the student record
+	return student;
 };

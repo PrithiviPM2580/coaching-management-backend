@@ -44,3 +44,16 @@ export const getAllStudentsRepository = async () => {
 		},
 	});
 };
+
+// ------------------------------------------------------
+// getStudentByIdRepository() — Retrieves a student by their ID
+// ------------------------------------------------------
+export const getStudentByIdRepository = async (studentId: number) => {
+	// Retrieve and return the student record with the specified ID
+	return prisma.student.findUnique({
+		where: { id: studentId },
+		include: {
+			batch: true,
+		},
+	});
+};

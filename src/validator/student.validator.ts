@@ -35,3 +35,20 @@ export const createStudentSchema = {
 			.optional(),
 	}),
 };
+// ============================================================
+
+// ------------------------------------------------------
+// Interface for StudentID
+// ------------------------------------------------------
+export interface StudentIDParams {
+	studentId: string;
+}
+
+// ------------------------------------------------------
+// studnetParamsSchema{} — Validation schema for student ID params
+// ------------------------------------------------------
+export const studentParamsSchema = {
+	params: Joi.object<StudentIDParams>({
+		studentId: Joi.number().integer().positive().required(),
+	}),
+};
