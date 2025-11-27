@@ -6,10 +6,10 @@ import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import {
 	createBatchRepository,
+	deleteBatchByIdRepository,
 	getAllBatchesRepository,
 	getBatchByIdRepository,
 	updateBatchByIdRepository,
-	deleteBatchByIdRepository,
 } from "@/repositories/batch.repository";
 import type {
 	CreateBatchBody,

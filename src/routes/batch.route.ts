@@ -4,12 +4,12 @@
 
 import { Router } from "express";
 import createBatchController from "@/controllers/batch/create-batch.controller";
+import deleteBatchController from "@/controllers/batch/delete-batch.controller";
 import getAllBatchesController from "@/controllers/batch/get-all-batches.controller";
 import getBatchController from "@/controllers/batch/get-batch.controller";
 import updateBatchController from "@/controllers/batch/update-batch.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
-import deleteBatchController from "@/controllers/batch/delete-batch.controller";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
 import {
 	batchParamsSchema,
