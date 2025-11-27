@@ -4,11 +4,11 @@
 
 import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
-import type { CreateBatchBody } from "@/validator/batch.validator";
 import {
 	createBatchRepository,
 	getAllBatchesRepository,
 } from "@/repositories/batch.repository";
+import type { CreateBatchBody } from "@/validator/batch.validator";
 
 // ------------------------------------------------------
 // createBatchService() — Service to handle creating a new batch

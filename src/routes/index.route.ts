@@ -6,8 +6,8 @@ import config from "@/config/env.config";
 import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import authRoute from "@/routes/auth.route";
-import studentRoute from "@/routes/student.route";
 import batchRoute from "@/routes/batch.route";
+import studentRoute from "@/routes/student.route";
 import { successResponse } from "@/utils/index.util";
 
 // Initialize the router

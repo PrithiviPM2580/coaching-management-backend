@@ -1,13 +1,14 @@
 // ============================================================
 // 🔹BatchRoute — Routes related to batch operations
 // ============================================================
+
+import { Router } from "express";
 import createBatchController from "@/controllers/batch/create-batch.controller";
 import getAllBatchesController from "@/controllers/batch/get-all-batch.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
 import { createBatchSchema } from "@/validator/batch.validator";
-import { Router } from "express";
 
 // Initialize the router
 const router: Router = Router();
