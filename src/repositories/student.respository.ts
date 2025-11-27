@@ -39,9 +39,6 @@ export const isBatchExistsRepository = async (batchId: number) => {
 export const getAllStudentsRepository = async () => {
 	// Retrieve and return all student records
 	return prisma.student.findMany({
-		include: {
-			batch: true,
-		},
 		orderBy: {
 			created_at: "desc",
 		},

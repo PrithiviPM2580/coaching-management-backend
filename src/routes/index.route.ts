@@ -7,6 +7,7 @@ import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import authRoute from "@/routes/auth.route";
 import studentRoute from "@/routes/student.route";
+import batchRoute from "@/routes/batch.route";
 import { successResponse } from "@/utils/index.util";
 
 // Initialize the router
@@ -90,6 +91,7 @@ router.route("/health").get((_req: Request, res: Response) => {
 // ------------------------------------------------------
 router.use("/api/v1/auth", authRoute);
 router.use("/api/v1/students", studentRoute);
+router.use("/api/v1/batches", batchRoute);
 
 // ------------------------------------------------------
 // Not Found

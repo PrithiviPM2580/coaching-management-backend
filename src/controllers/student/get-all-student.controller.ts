@@ -19,7 +19,7 @@ const getAllStudentsController = async (
 	const students = await getAllStudentsService();
 
 	// If no students are found, log an error and pass an API error to the next middleware
-	if (!students) {
+	if (students.length === 0) {
 		// Log an error indicating no students were found
 		logger.error("No students found", {
 			label: "getAllStudentsController",
