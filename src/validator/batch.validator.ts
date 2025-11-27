@@ -27,3 +27,21 @@ export const createBatchSchema = {
 		monthly_fees: Joi.number().positive().required(),
 	}),
 };
+
+// ===============================================================
+
+// ------------------------------------------------------
+// Interface for BatchID
+// ------------------------------------------------------
+export interface BatchIDParams {
+	batchId: string;
+}
+
+// ------------------------------------------------------
+// batchParamsSchema{} — Validation schema for batch ID params
+// ------------------------------------------------------
+export const batchParamsSchema = {
+	params: Joi.object<BatchIDParams>({
+		batchId: Joi.number().integer().positive().required(),
+	}),
+};

@@ -26,3 +26,19 @@ export const getAllBatchesRepository = async () => {
 		},
 	});
 };
+
+// ------------------------------------------------------
+// getBatchByIdRepository() — Function to fetch a single batch by ID from the database
+// ------------------------------------------------------
+export const getBatchByIdRepository = async (batchId: number) => {
+	// Fetch and return the batch record with the specified ID
+	return prisma.batch.findUnique({
+		where: {
+			id: batchId,
+		},
+		include: {
+			students: true,
+			payments: true,
+		},
+	});
+};

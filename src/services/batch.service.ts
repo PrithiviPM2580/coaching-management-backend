@@ -7,6 +7,7 @@ import logger from "@/lib/logger.lib";
 import {
 	createBatchRepository,
 	getAllBatchesRepository,
+	getBatchByIdRepository,
 } from "@/repositories/batch.repository";
 import type { CreateBatchBody } from "@/validator/batch.validator";
 
@@ -49,4 +50,34 @@ export const getAllBatchesService = async () => {
 
 	// Return the list of batches
 	return batches;
+};
+
+// ------------------------------------------------------
+// getBatchService() — Service to handle fetching a single batch by ID
+// ------------------------------------------------------
+export const getBatchService = async (batchId: number) => {
+	// Validate the batch ID
+	if (!batchId) {
+		// Log an error if batch ID is not provided
+		logger.error("Batch ID is required to fetch batch", {
+			label: "BatchService",
+		});
+
+		// Throw an API error for bad request
+		throw new APIError(400, "Batch ID is required", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "batchId",
+					message: "Batch ID is missing",
+				},
+			],
+		});
+	}
+
+	// Fetch the batch by ID using the repository
+	const batch = await getBatchByIdRepository(batchId);
+
+	// If no batch is found, throw a not found error
+	return batch;
 };
