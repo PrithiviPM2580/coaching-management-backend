@@ -6,6 +6,7 @@ import APIError from "@/lib/api-error.lib";
 import logger from "@/lib/logger.lib";
 import {
 	createStudentRepository,
+	getAllStudentsRepository,
 	isBatchExistsRepository,
 } from "@/repositories/student.respository";
 import type { CreateStudentBody } from "@/validator/student.validator";
@@ -60,4 +61,15 @@ export const createStudentService = async (studentData: CreateStudentBody) => {
 
 	// Return the newly created student record
 	return newStudent;
+};
+
+// ------------------------------------------------------
+// getAllStudentsService() — Handles the business logic for retrieving all students
+// ------------------------------------------------------
+export const getAllStudentsService = async () => {
+	// Retrieve all students using the repository function
+	const students = await getAllStudentsRepository();
+
+	// Return the list of students
+	return students;
 };

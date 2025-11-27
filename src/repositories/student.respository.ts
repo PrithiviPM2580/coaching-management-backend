@@ -29,3 +29,18 @@ export const isBatchExistsRepository = async (batchId: number) => {
 	});
 	return !!batch;
 };
+
+// ------------------------------------------------------
+// getAllStudentsRepository() — Retrieves all students from the database
+// ------------------------------------------------------
+export const getAllStudentsRepository = async () => {
+	// Retrieve and return all student records
+	return prisma.student.findMany({
+		include: {
+			batch: true,
+		},
+		orderBy: {
+			created_at: "desc",
+		},
+	});
+};

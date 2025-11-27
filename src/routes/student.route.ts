@@ -4,6 +4,7 @@
 
 import { Router } from "express";
 import { createStudentController } from "@/controllers/student/create-student.controller";
+import getAllStudentsController from "@/controllers/student/get-all-student.controller";
 import asyncHandlerMiddleware from "@/middleware/async-handler.middleware";
 import authenticateMiddleware from "@/middleware/authenticate.middleware";
 import validateRequestMiddleware from "@/middleware/validate-request.middleware";
@@ -15,7 +16,7 @@ const router: Router = Router();
 // ------------------------------------------------------
 // Create Student Route
 // ------------------------------------------------------
-// @desc    Create Student
+// @desc    Create Student Route
 // @route   POST /api/v1/students
 // @access  Private
 router
@@ -24,6 +25,19 @@ router
 		authenticateMiddleware(["admin", "staff", "accountant"]),
 		validateRequestMiddleware(createStudentSchema),
 		asyncHandlerMiddleware(createStudentController),
+	);
+
+// ------------------------------------------------------
+// Get All Students Route
+// ------------------------------------------------------
+// @desc    Get All Student Route
+// @route   GET /api/v1/students
+// @access  Private
+router
+	.route("/")
+	.get(
+		authenticateMiddleware(["admin", "staff", "accountant"]),
+		asyncHandlerMiddleware(getAllStudentsController),
 	);
 
 export default router;
