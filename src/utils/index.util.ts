@@ -4,6 +4,7 @@
 
 import bcrypt from "bcrypt";
 import type { Response } from "express";
+import PDFDocument from "pdfkit";
 import logger from "@/lib/logger.lib";
 
 // ------------------------------------------------------
@@ -82,4 +83,35 @@ export const generateReceiptNumber = (): string => {
 	const timestamp = Date.now().toString(); // Current timestamp
 	const randomNum = Math.floor(1000 + Math.random() * 9000).toString(); // Random 4-digit number
 	return `RCPT-${timestamp}-${randomNum}`;
+};
+
+// ------------------------------------------------------
+// generatePDF() — Generates a PDF document
+// ------------------------------------------------------
+export const generatePDF = (
+	payment: FeePayment,
+	paymentId: number,
+	res: Response,
+) => {
+	const doc = new PDFDocument();
+
+	res.setHeader("Content-Type", "application/pdf");
+	res.setHeader(
+		"Content-Disposition",
+		`attachment; filename=receipt-${paymentId}.pdf`,
+	);
+
+	doc.pipe(res);
+
+	doc.fontSize(20).text("Payment Receipt", { align: "center" });
+	doc.moveDown();
+
+	doc.fontSize(12).text(`Receipt No: ${payment.receipt_no}`);
+	doc.text(`Student: ${payment.student.name}`);
+	doc.text(`Batch: ${payment.batch.batch_name}`);
+	doc.text(`Amount Paid: Rs. ${payment.amount_paid}`);
+	doc.text(`Mode: ${payment.mode}`);
+	doc.text(`Date: ${payment.date.toDateString()}`);
+
+	doc.end();
 };
