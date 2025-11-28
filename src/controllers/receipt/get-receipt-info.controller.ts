@@ -18,7 +18,7 @@ const getReceiptInfoController = async (
 	next: NextFunction,
 ): Promise<void> => {
 	// Extract payment_id from request parameters
-	const paymentId = req.params.payment_id as ReceiptIdParams["payment_id"];
+	const paymentId = req.params.paymentId as ReceiptIdParams["paymentId"];
 
 	// Convert paymentId to number
 	const receiptNumberId = Number(paymentId);

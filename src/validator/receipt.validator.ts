@@ -7,7 +7,7 @@ import Joi from "joi";
 // Interface for ReceiptIdParams
 // ------------------------------------------------------
 export interface ReceiptIdParams {
-	payment_id: string;
+	paymentId: string;
 }
 
 // ------------------------------------------------------
@@ -15,6 +15,6 @@ export interface ReceiptIdParams {
 // ------------------------------------------------------
 export const receiptIdParamsSchema = {
 	params: Joi.object<ReceiptIdParams>({
-		payment_id: Joi.number().integer().positive().required(),
+		paymentId: Joi.number().integer().positive().required(),
 	}),
 };
