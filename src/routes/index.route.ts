@@ -8,6 +8,7 @@ import logger from "@/lib/logger.lib";
 import authRoute from "@/routes/auth.route";
 import batchRoute from "@/routes/batch.route";
 import feeRoute from "@/routes/fee.route";
+import receiptRoute from "@/routes/receipt.route";
 import studentRoute from "@/routes/student.route";
 import { successResponse } from "@/utils/index.util";
 
@@ -94,6 +95,7 @@ router.use("/api/v1/auth", authRoute);
 router.use("/api/v1/students", studentRoute);
 router.use("/api/v1/batches", batchRoute);
 router.use("/api/v1/fees", feeRoute);
+router.use("/api/v1/receipts", receiptRoute);
 
 // ------------------------------------------------------
 // Not Found
