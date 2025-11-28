@@ -21,7 +21,7 @@ const getReceiptInfoController = async (
 	const paymentId = req.params.paymentId as ReceiptIdParams["paymentId"];
 
 	// Convert paymentId to number
-	const receiptNumberId = Number(paymentId);
+	const paymentNumberId = Number(paymentId);
 
 	// Validate paymentId
 	if (!paymentId) {
@@ -45,7 +45,7 @@ const getReceiptInfoController = async (
 	}
 
 	// Call the service to get receipt information
-	const receiptInfo = await getReceiptInfoService(receiptNumberId);
+	const receiptInfo = await getReceiptInfoService(paymentNumberId);
 
 	// If no receipt found, throw not found error
 	if (!receiptInfo) {

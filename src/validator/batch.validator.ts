@@ -23,7 +23,7 @@ export const createBatchSchema = {
 		batch_name: Joi.string().min(3).max(50).required(),
 		subject: Joi.string().min(3).max(50).required(),
 		teacher: Joi.string().min(3).max(50).required(),
-		timing: Joi.string().valid("MORNING", "DAY", "EVENING").required(),
+		timing: Joi.string().valid("morning", "day", "evening").required(),
 		monthly_fees: Joi.number().positive().required(),
 	}),
 };
@@ -67,7 +67,7 @@ export const updateBatchSchema = {
 		batch_name: Joi.string().min(3).max(50).optional(),
 		subject: Joi.string().min(3).max(50).optional(),
 		teacher: Joi.string().min(3).max(50).optional(),
-		timing: Joi.string().valid("MORNING", "DAY", "EVENING").optional(),
+		timing: Joi.string().valid("morning", "day", "evening").optional(),
 		monthly_fees: Joi.number().positive().optional(),
 	}).min(1),
 	params: Joi.object<BatchIDParams>({

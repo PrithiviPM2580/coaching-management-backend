@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import type { Response } from "express";
 import PDFDocument from "pdfkit";
 import logger from "@/lib/logger.lib";
+import APIError from "@/lib/api-error.lib";
 
 // ------------------------------------------------------
 // successResponse() — Sends a standardized success response
@@ -72,8 +73,22 @@ export const studentDueAmount = (
 	dueAmount: number,
 	amountPaid: number,
 ): number => {
-	const due = dueAmount - amountPaid;
-	return due;
+	if (amountPaid > dueAmount) {
+		logger.error("Amount paid exceeds due amount", {
+			label: "studentDueAmount",
+		});
+		throw new APIError(400, "Amount paid exceeds due amount", {
+			type: "BadRequest",
+			details: [
+				{
+					field: "amountPaid",
+					message: "Amount paid cannot be greater than due amount",
+				},
+			],
+		});
+	}
+
+	return dueAmount - amountPaid;
 };
 
 // ------------------------------------------------------

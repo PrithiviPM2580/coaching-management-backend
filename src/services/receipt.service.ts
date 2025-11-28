@@ -14,11 +14,11 @@ import { generatePDF } from "@/utils/index.util";
 // ------------------------------------------------------
 // getReceiptInfoService() — Service to get receipt information
 // ------------------------------------------------------
-export const getReceiptInfoService = async (receiptNumberId: number) => {
-	// Validate receiptNumberId
-	if (!receiptNumberId) {
-		// Log error for missing receiptNumberId
-		logger.error("Receipt Number ID is required", {
+export const getReceiptInfoService = async (paymentNumberId: number) => {
+	// Validate paymentNumberId
+	if (!paymentNumberId) {
+		// Log error for missing paymentNumberId
+		logger.error("Payment Number ID is required", {
 			label: "GetReceiptInfoService",
 		});
 
@@ -27,15 +27,15 @@ export const getReceiptInfoService = async (receiptNumberId: number) => {
 			type: "BadRequest",
 			details: [
 				{
-					field: "receipt_number_id",
-					message: "Receipt Number ID is required.",
+					field: "payment_number_id",
+					message: "Payment Number ID is required.",
 				},
 			],
 		});
 	}
 
 	// Fetch receipt from the repository
-	const receipt = await findReceiptById(receiptNumberId);
+	const receipt = await findReceiptById(paymentNumberId);
 
 	// Return the fetched receipt
 	return receipt;

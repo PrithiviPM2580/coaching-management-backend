@@ -46,8 +46,13 @@ const validatePart = (
 		// Indicate that validation failed
 		return false;
 	}
+
 	// Update the request part with the validated and sanitized value
-	req[part] = value;
+	if (part === "query") {
+		Object.assign(req.query, value); // merge instead of overwrite
+	} else {
+		req[part] = value; // body & params are safe
+	}
 
 	// Indicate that validation succeeded
 	return true;

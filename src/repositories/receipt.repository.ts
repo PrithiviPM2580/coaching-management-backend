@@ -9,10 +9,11 @@ import prisma from "@/config/prisma-client.config";
 // ------------------------------------------------------
 export const findReceiptById = async (receiptNumberId: number) => {
 	// Fetch receipt by ID including related payment information
-	return prisma.receipt.findUnique({
+	return prisma.feePayment.findUnique({
 		where: { id: receiptNumberId },
 		include: {
-			payment: true,
+			student: true,
+			batch: true,
 		},
 	});
 };

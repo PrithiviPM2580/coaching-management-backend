@@ -155,6 +155,10 @@ export const updateStudentService = async (
 		});
 	}
 
+	if (updateData.join_date) {
+		updateData.join_date = new Date(updateData.join_date).toISOString();
+	}
+
 	// Update the student record using the repository function
 	const updatedStudent = await updateStudentRepository(studentId, updateData);
 
