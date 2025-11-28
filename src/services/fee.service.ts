@@ -7,6 +7,8 @@ import logger from "@/lib/logger.lib";
 import { findBatchByIdRepository } from "@/repositories/batch.repository";
 import {
 	createFeeRepository,
+	getFeeReportsRepository,
+	getFeeResportsBreakdownRepository,
 	getPaymentsByStudentIdRepository,
 } from "@/repositories/fee.repository";
 import { findStudentByIdRepository } from "@/repositories/student.respository";
@@ -147,4 +149,46 @@ export const getStudentFeeService = async (studentId: number) => {
 
 	// Return student details along with their fee payments
 	return { student, payments };
+};
+
+// ------------------------------------------------------
+// getFeeReportsService() — Business logic to get fee reports
+// ------------------------------------------------------
+export const getFeeReportsService = async (
+	type: "daily" | "monthly" | "yearly",
+	date: string,
+) => {
+	// Determine the start and end dates based on the report type
+	let start: Date, end: Date;
+
+	// Calculate start and end dates
+	if (type === "daily") {
+		// Daily
+		start = new Date(`${date}T00:00:00.000Z`);
+		end = new Date(`${date}T23:59:59.999Z`);
+	} else if (type === "monthly") {
+		// Monthly
+		const [y, m] = date.split("-").map(Number);
+		start = new Date(Date.UTC(y, m - 1, 1, 0, 0, 0));
+		end = new Date(Date.UTC(y, m, 0, 23, 59, 59, 999));
+	} else {
+		// Yearly
+		const year = Number(date);
+		start = new Date(Date.UTC(year, 0, 1, 0, 0, 0));
+		end = new Date(Date.UTC(year, 11, 31, 23, 59, 59, 999));
+	}
+
+	// Retrieve total payments within the date range
+	const totalPayments = await getFeeReportsRepository(start, end);
+
+	// Retrieve breakdown of payments based on the report type
+	const breakDown = await getFeeResportsBreakdownRepository(type, start, end);
+
+	// Return the report data
+	return {
+		start,
+		end,
+		totalCollected: Number(totalPayments._sum.amount_paid ?? 0),
+		breakDown,
+	};
 };

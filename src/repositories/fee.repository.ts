@@ -44,3 +44,43 @@ export const getPaymentsByStudentIdRepository = async (studentId: number) => {
 		orderBy: { date: "desc" },
 	});
 };
+
+// ------------------------------------------------------
+// getFeeReportsRepository() — Retrieves fee reports within a date range
+// ------------------------------------------------------
+export const getFeeReportsRepository = async (
+	startDate: Date,
+	endDate: Date,
+) => {
+	// Aggregate the total amount paid within the specified date range
+	return prisma.feePayment.aggregate({
+		_sum: { amount_paid: true },
+		where: {
+			date: {
+				gte: startDate,
+				lte: endDate,
+			},
+		},
+	});
+};
+
+// ------------------------------------------------------
+// getFeeReportsBreakdownRepository() — Retrieves fee reports breakdown by type
+// ------------------------------------------------------
+export const getFeeResportsBreakdownRepository = async (
+	type: "daily" | "monthly" | "yearly",
+	startDate: Date,
+	endDate: Date,
+) => {
+	// Group fee payments by date or student based on the report type
+	return prisma.feePayment.groupBy({
+		by: type === "daily" ? ["date"] : ["student_id"],
+		_sum: { amount_paid: true },
+		where: {
+			date: {
+				gte: startDate,
+				lte: endDate,
+			},
+		},
+	});
+};

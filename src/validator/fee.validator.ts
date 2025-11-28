@@ -26,3 +26,23 @@ export const createFeeSchema = {
 		date: Joi.string().required(),
 	}),
 };
+
+// ===============================================================
+
+// ------------------------------------------------------
+// Interface for FeesReportQuery
+// ------------------------------------------------------
+export interface FeesReportQuery {
+	type: "daily" | "monthly" | "yearly";
+	date: string;
+}
+
+// ------------------------------------------------------
+// feesReportQuerySchema{} — Validation schema for fee reports query
+// ------------------------------------------------------
+export const feesReportQuerySchema = {
+	query: Joi.object<FeesReportQuery>({
+		type: Joi.string().valid("daily", "monthly", "yearly").required(),
+		date: Joi.string().required(),
+	}),
+};
